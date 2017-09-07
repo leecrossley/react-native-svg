@@ -39,6 +39,8 @@ public class TSpanShadowNode extends TextShadowNode {
     private static final String PROP_FONT_SIZE = "fontSize";
     private static final String PROP_FONT_STYLE = "fontStyle";
     private static final String PROP_FONT_WEIGHT = "fontWeight";
+    private static final String TTF = ".ttf";
+    private static final String OTF = ".otf";
 
     @ReactProp(name = "content")
     public void setContent(@Nullable String content) {
@@ -161,11 +163,26 @@ public class TSpanShadowNode extends TextShadowNode {
         String fontName = font.getString(PROP_FONT_FAMILY);
         InputStream io = null;
         try {
-            io = manager.open("fonts/" + fontName + ".ttf");
-            selectedFont = Typeface.create(Typeface.createFromAsset(getThemedContext().getAssets(), "fonts/"+fontName+".ttf"), fontStyle);
+            io = manager.open("fonts/" + fontName + TTF);
+            selectedFont = Typeface.create(Typeface.createFromAsset(getThemedContext().getAssets(), "fonts/"+fontName+TTF), fontStyle);
         }
         catch (Exception e) {
+            try {
+                io = manager.open("fonts/" + fontName + OTF);
+                selectedFont = Typeface.create(Typeface.createFromAsset(getThemedContext().getAssets(), "fonts/"+fontName+OTF), fontStyle);
+            }
+            catch (Exception e) {
 
+            }
+            finally {
+                if(io != null) {
+                    try {
+                        io.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         finally {
             if(io != null) {
