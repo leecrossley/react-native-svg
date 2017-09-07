@@ -156,7 +156,27 @@ public class TSpanShadowNode extends TextShadowNode {
             fontStyle = Typeface.NORMAL;
         }
         // NB: if the font family is null / unsupported, the default one will be used
-        paint.setTypeface(Typeface.create(font.getString(PROP_FONT_FAMILY), fontStyle));
+        AssetManager manager = getThemedContext().getAssets();
+        Typeface selectedFont = Typeface.create(font.getString(PROP_FONT_FAMILY), fontStyle);
+        String fontName = font.getString(PROP_FONT_FAMILY);
+        InputStream io = null;
+        try {
+            io = manager.open("fonts/" + fontName + ".ttf");
+            selectedFont = Typeface.create(Typeface.createFromAsset(getThemedContext().getAssets(), "fonts/"+fontName+".ttf"), fontStyle);
+        }
+        catch (Exception e) {
+
+        }
+        finally {
+            if(io != null) {
+                try {
+                    io.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        paint.setTypeface(selectedFont);
     }
 
     private void setupTextPath() {
