@@ -158,38 +158,19 @@ public class TSpanShadowNode extends TextShadowNode {
             fontStyle = Typeface.NORMAL;
         }
         // NB: if the font family is null / unsupported, the default one will be used
-        AssetManager manager = getThemedContext().getAssets();
-        Typeface selectedFont = Typeface.create(font.getString(PROP_FONT_FAMILY), fontStyle);
-        String fontName = font.getString(PROP_FONT_FAMILY);
-        InputStream io = null;
+        Typeface typeface = null;
+        final String fontFamily = font.fontFamily;
         try {
-            io = manager.open("fonts/" + fontName + TTF);
-            selectedFont = Typeface.create(Typeface.createFromAsset(getThemedContext().getAssets(), "fonts/"+fontName+TTF), fontStyle);
-        }
-        catch (Exception e) {
+            String path = FONTS + fontFamily + OTF;
+            typeface = Typeface.createFromAsset(assetManager, path);
+        } catch (Exception ignored) {
             try {
-                io = manager.open("fonts/" + fontName + OTF);
-                selectedFont = Typeface.create(Typeface.createFromAsset(getThemedContext().getAssets(), "fonts/"+fontName+OTF), fontStyle);
-            }
-            catch (Exception e) {
-
-            }
-            finally {
-                if(io != null) {
-                    try {
-                        io.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        finally {
-            if(io != null) {
+                String path = FONTS + fontFamily + TTF;
+                typeface = Typeface.createFromAsset(assetManager, path);
+            } catch (Exception ignored2) {
                 try {
-                    io.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    typeface = Typeface.create(fontFamily, fontStyle);
+                } catch (Exception ignored3) {
                 }
             }
         }
