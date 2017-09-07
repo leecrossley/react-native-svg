@@ -41,6 +41,7 @@ public class TSpanShadowNode extends TextShadowNode {
     private static final String PROP_FONT_WEIGHT = "fontWeight";
     private static final String TTF = ".ttf";
     private static final String OTF = ".otf";
+    private static final String FONTS = "fonts/";
 
     @ReactProp(name = "content")
     public void setContent(@Nullable String content) {
@@ -174,7 +175,7 @@ public class TSpanShadowNode extends TextShadowNode {
                 }
             }
         }
-        paint.setTypeface(selectedFont);
+        paint.setTypeface(typeface);
     }
 
     private void setupTextPath() {
