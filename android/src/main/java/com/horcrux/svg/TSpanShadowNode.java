@@ -160,7 +160,8 @@ public class TSpanShadowNode extends TextShadowNode {
         }
         // NB: if the font family is null / unsupported, the default one will be used
         Typeface typeface = null;
-        final String fontFamily = font.fontFamily;
+        AssetManager assetManager = getThemedContext().getAssets();
+        final String fontFamily = font.getString(PROP_FONT_FAMILY);
         try {
             String path = FONTS + fontFamily + OTF;
             typeface = Typeface.createFromAsset(assetManager, path);
