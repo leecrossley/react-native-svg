@@ -10,6 +10,7 @@
 package com.horcrux.svg;
 
 
+import android.content.res.AssetManager;
 import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
